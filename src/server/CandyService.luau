@@ -117,7 +117,8 @@ local function onPlayerAdded(player: Player)
 
 	local ok, saved = pcall(store.GetAsync, store, key(player))
 	if ok then
-		candy.Value = saved or 0
+		-- Add rather than assign: candy picked up while GetAsync was pending is already in the stat.
+		candy.Value += saved or 0
 		loaded[player] = true
 	else
 		warn("[CandyService] Could not load data for " .. player.Name .. ": " .. tostring(saved))

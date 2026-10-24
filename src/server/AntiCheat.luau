@@ -62,6 +62,16 @@ function AntiCheat.canPickup(player: Player, candy: BasePart): boolean
 		strike(player, "pickup from too far away")
 		return false
 	end
+	-- Teleport to the candy and back between two speed samples: the sampler would see no movement,
+	-- so also check that the player could have walked here since the last sample.
+	if state.lastPos then
+		local offset = root.Position - state.lastPos
+		local moved = Vector3.new(offset.X, 0, offset.Z).Magnitude
+		if moved > cfg.MaxHorizontalSpeed * (now - state.lastTime) + cfg.MaxPickupDistance then
+			strike(player, ("reached candy %.0f studs away in %.2fs"):format(moved, now - state.lastTime))
+			return false
+		end
+	end
 	if now - state.lastPickup < cfg.MinPickupInterval then
 		return false -- too fast to be human, but common enough with lag that it is not a strike
 	end
