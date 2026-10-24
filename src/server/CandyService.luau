@@ -104,12 +104,16 @@ local function key(player: Player): string
 end
 
 local function onPlayerAdded(player: Player)
-	local stats = Instance.new("Folder")
-	stats.Name = "leaderstats"
+	-- Reuse the game's own leaderstats if it already made one; two folders would break the leaderboard.
+	local stats = player:FindFirstChild("leaderstats")
+	if not stats then
+		stats = Instance.new("Folder")
+		stats.Name = "leaderstats"
+		stats.Parent = player
+	end
 	local candy = Instance.new("IntValue")
 	candy.Name = "Candy"
 	candy.Parent = stats
-	stats.Parent = player
 
 	local ok, saved = pcall(store.GetAsync, store, key(player))
 	if ok then

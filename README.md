@@ -31,7 +31,7 @@ rojo plugin install
 
 **בלי Rojo:** ב-Studio יוצרים `Folder` בשם `Shared` תחת `ReplicatedStorage` ו-`Folder` בשם `Server` תחת `ServerScriptService`. כל קובץ `.luau` הופך ל-`ModuleScript` באותו שם (בלי הסיומת). `Main.server.luau` הופך ל-`Script` בשם `Main`.
 
-**המפה:** אפשר ליצור `Folder` בשם `CandySpawns` ב-`workspace` ולשים בו Parts שקופים שמסמנים אזורים. ממתקים ובוטים יופיעו רק בתוכם. בלי התיקייה, הם יופיעו בריבוע של 180×180 סביב מרכז המפה (מתאים ל-Baseplate). השמירה ב-Studio דורשת את ההגדרה Game Settings ← Security ← Enable Studio Access to API Services. בלי ההגדרה המשחק עובד, אבל לא שומר.
+**המפה:** אפשר ליצור `Folder` בשם `CandySpawns` ב-`workspace` ולשים בו Parts שמסמנים אזורים: קופסאות שמכסות את אזור ההליכה מהרצפה ועד מתחת לתקרה, עם `Anchored`, `Transparency = 1` ו-`CanCollide` כבוי. הקרן יורדת מראש הקופסה, כך שגגות לא מפריעים. ממתקים ובוטים יופיעו רק בתוכם. בלי התיקייה, הם יופיעו בריבוע של 180×180 סביב מרכז המפה (מתאים ל-Baseplate). השמירה ב-Studio דורשת את ההגדרה Game Settings ← Security ← Enable Studio Access to API Services. בלי ההגדרה המשחק עובד, אבל לא שומר.
 
 ## איך הבוט מחליט
 

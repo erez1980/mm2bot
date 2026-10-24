@@ -71,7 +71,7 @@ local function flee(humanoid: Humanoid, root: BasePart, from: { Vector3 })
 	local away = SafeTarget.fleeDirection(root.Position, from)
 	for _, angle in FLEE_ANGLES do
 		local direction = CFrame.Angles(0, math.rad(angle), 0):VectorToWorldSpace(away)
-		local goal = MapArea.groundAt(root.Position + direction * cfg.FleeDistance)
+		local goal = MapArea.groundAt(root.Position + direction * cfg.FleeDistance, 5) -- from about head height, under any roof
 		if goal and walkTo(humanoid, root, goal, function()
 			return false -- finish the escape leg; the next loop re-checks
 		end) then

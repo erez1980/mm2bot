@@ -8,10 +8,11 @@ local MapArea = {}
 
 local params = RaycastParams.new()
 params.FilterType = Enum.RaycastFilterType.Exclude
+params.RespectCanCollide = true -- see through invisible zones and triggers you can walk through
 
 local function refreshFilter()
 	local ignore = {}
-	for _, name in { "Candy", "CandyBots" } do
+	for _, name in { "Candy", "CandyBots", "CandySpawns" } do
 		local folder = workspace:FindFirstChild(name)
 		if folder then
 			table.insert(ignore, folder)
@@ -25,15 +26,14 @@ local function refreshFilter()
 	params.FilterDescendantsInstances = ignore
 end
 
--- Point on the floor below (or above) position, or nil if there is no floor (off the map).
-function MapArea.groundAt(position: Vector3): Vector3?
+-- Floor point below position, or nil if there is no floor (off the map).
+-- The ray starts castHeight above position (default 100); keep it small indoors so it starts under the roof.
+function MapArea.groundAt(position: Vector3, castHeight: number?): Vector3?
 	refreshFilter()
-	local origin = Vector3.new(position.X, position.Y + 100, position.Z)
-	local hit = workspace:Raycast(origin, Vector3.new(0, -300, 0), params)
-	if hit and hit.Instance.CanCollide then
-		return hit.Position
-	end
-	return nil
+	local height = castHeight or 100
+	local origin = position + Vector3.new(0, height, 0)
+	local hit = workspace:Raycast(origin, Vector3.new(0, -(height + 200), 0), params)
+	return hit and hit.Position
 end
 
 local function spawnParts(): { BasePart }
@@ -53,15 +53,16 @@ end
 function MapArea.randomPoint(): Vector3?
 	local parts = spawnParts()
 	for _ = 1, 10 do
-		local center, size
+		local center, size, castHeight
 		if #parts > 0 then
+			-- Cast from the top of the zone part, so a roof above the zone is never hit.
 			local part = parts[math.random(#parts)]
-			center, size = part.Position, part.Size
+			center, size, castHeight = part.Position, part.Size, part.Size.Y / 2
 		else
 			center, size = Config.Candy.Area.Center, Config.Candy.Area.Size
 		end
 		local candidate = center + Vector3.new((math.random() - 0.5) * size.X, 0, (math.random() - 0.5) * size.Z)
-		local ground = MapArea.groundAt(candidate)
+		local ground = MapArea.groundAt(candidate, castHeight)
 		if ground then
 			return ground
 		end
