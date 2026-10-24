@@ -18,7 +18,16 @@
 
 ## הרצה
 
-**עם Rojo (מומלץ):** מתוך תיקיית ה-repo מריצים `rojo serve`, וב-Studio מתחברים מהתוסף של Rojo.
+**עם Rojo (מומלץ):** גרסת Rojo נעולה ב-`rokit.toml`. פעם אחת, מתוך תיקיית ה-repo:
+
+```
+rokit install
+rojo plugin install
+```
+
+אחר כך, בכל פעם: `rojo serve`, וב-Studio ‏**Plugins ← Rojo ← Connect**. (התקנת Rokit: https://github.com/rojo-rbx/rokit)
+
+**משחק קיים:** פותחים את המשחק ב-Studio ומתחברים באותו אופן. Rojo מחליף רק את התיקיות `ReplicatedStorage.Shared` ו-`ServerScriptService.Server`, ושאר המשחק לא משתנה. אם במשחק כבר יש אובייקטים בשמות האלה, הם יוחלפו, ולכן כדאי לבדוק לפני החיבור. אחרי הבדיקה שומרים ומפרסמים כרגיל (**File ← Publish to Roblox**), והקוד נשמר בתוך המשחק.
 
 **בלי Rojo:** ב-Studio יוצרים `Folder` בשם `Shared` תחת `ReplicatedStorage` ו-`Folder` בשם `Server` תחת `ServerScriptService`. כל קובץ `.luau` הופך ל-`ModuleScript` באותו שם (בלי הסיומת). `Main.server.luau` הופך ל-`Script` בשם `Main`.
 
